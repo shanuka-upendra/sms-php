@@ -52,6 +52,8 @@ class student
     }
 }
 
+
+//=====Student Manager Class=====
 class StudentManager
 {
     private $students = [];
@@ -157,3 +159,65 @@ class StudentManager
         ];
     }
 }
+
+//=====Display Functions=====
+function printDivider($title = "")
+{
+    echo "<br>========================================" . "<br>";
+    if ($title) echo "  " . $title . "<br>";
+    echo "========================================" . "<br>";
+}
+
+function printStudent($student)
+{
+    echo "ID:      " . $student->id              . "<br>";
+    echo "Name:    " . $student->name            . "<br>";
+    echo "Email:   " . $student->email           . "<br>";
+    echo "Age:     " . $student->age             . "<br>";
+
+    $scores = $student->getScores();
+    if (!empty($scores)) {
+        echo "Scores:" . "<br>";
+        foreach ($scores as $subject => $score) {
+            echo "  → " . $subject . ": " . $score . "<br>";
+        }
+        echo "Average: " . $student->getAverage() . "<br>";
+        echo "Grade:   " . $student->getGrade()   . "<br>";
+        echo "Status:  " . ($student->isPassing() ? "✅ Passing" : "❌ Failing") . "<br>";
+    }
+    echo "---" . "<br>";
+}
+
+function printAllStudents($manager)
+{
+    $students = $manager->getAllStudents();
+
+    if (empty($students)) {
+        echo "No students found!" . "<br>";
+        return;
+    }
+
+    foreach ($students as $student) {
+        printStudent($student);
+    }
+}
+
+function printStats($manager)
+{
+    $stats = $manager->getStats();
+
+    if ($stats === null) {
+        echo "No data available!" . "<br>";
+        return;
+    }
+
+    echo "Total Students: " . $stats["total"]    . "<br>";
+    echo "Passing:        " . $stats["passing"]  . "<br>";
+    echo "Failing:        " . $stats["failing"]  . "<br>";
+    echo "Class Average:  " . $stats["classAvg"] . "<br>";
+}
+
+
+
+
+?>
