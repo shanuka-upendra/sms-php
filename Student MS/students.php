@@ -1,5 +1,6 @@
 <?php
 
+//=====Student Class=====
 class student
 {
     public $id;
@@ -45,7 +46,36 @@ class student
         else                return "F";
     }
 
-    public function isPassing() {
-        return $this->getAverage() >= 60;
+    public function isPassing()
+    {
+        return $this->getAvarage() >= 60;
     }
+}
+
+class StudentManager
+{
+    private $students = [];
+    private $nextId = 1;
+
+    public function addStudent($name, $email, $age)
+    {
+        foreach ($this->students as $student) {
+            if ($student->email === $email) {
+                echo "Error: Email Already exists! " . "<br>";
+            }
+        }
+
+        $student = new Student(
+            $this->nextId++,
+            $name,
+            $email,
+            $age
+        );
+
+        $this->students[] = $student;
+        echo "Student added: " . $name . "(ID: " . $student->id . ")" . "<br>";
+        return $student;
+    }
+
+    
 }
