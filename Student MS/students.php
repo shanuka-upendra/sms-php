@@ -103,7 +103,8 @@ class StudentManager
         return $results;
     }
 
-    public function updateStudent($id, $name, $email, $age) {
+    public function updateStudent($id, $name, $email, $age)
+    {
         $student = $this->findById($id);
 
         if ($student === null) {
@@ -117,5 +118,42 @@ class StudentManager
 
         echo "✅ Student updated: " . $name . "<br>";
         return true;
+    }
+
+    public function deleteStudent($id)
+    {
+        foreach ($this->students as $index => $student) {
+            if ($student->id === $id) {
+                $name = $student->name;
+                array_splice($this->students, $index, 1);
+                echo "✅ Student deleted: " . $name . "<br>";
+                return true;
+            }
+        }
+        echo "❌ Error: Student not found!" . "<br>";
+        return false;
+    }
+
+    public function getStats()
+    {
+        $total    = count($this->students);
+        if ($total === 0) return null;
+
+        $passing  = 0;
+        $failing  = 0;
+        $avgTotal = 0;
+
+        foreach ($this->students as $student) {
+            if ($student->isPassing()) $passing++;
+            else $failing++;
+            $avgTotal += $student->getAverage();
+        }
+
+        return [
+            "total"      => $total,
+            "passing"    => $passing,
+            "failing"    => $failing,
+            "classAvg"   => round($avgTotal / $total, 2)
+        ];
     }
 }
