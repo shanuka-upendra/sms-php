@@ -77,5 +77,45 @@ class StudentManager
         return $student;
     }
 
-    
+    public function getAllStudents()
+    {
+        return $this->students;
+    }
+
+    public function findById($id)
+    {
+        foreach ($this->students as $student) {
+            if ($student->id === $id) {
+                return $student;
+            }
+        }
+        return null;    // Not found
+    }
+
+    public function searchByName($keyword)
+    {
+        $results = [];
+        foreach ($this->students as $student) {
+            if (stripos($student->name, $keyword) !== false) {
+                $results[] = $student;
+            }
+        }
+        return $results;
+    }
+
+    public function updateStudent($id, $name, $email, $age) {
+        $student = $this->findById($id);
+
+        if ($student === null) {
+            echo "❌ Error: Student not found!" . "<br>";
+            return false;
+        }
+
+        $student->name  = $name;
+        $student->email = $email;
+        $student->age   = $age;
+
+        echo "✅ Student updated: " . $name . "<br>";
+        return true;
+    }
 }
